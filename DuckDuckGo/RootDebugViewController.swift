@@ -27,6 +27,7 @@ import Common
 import Configuration
 import Persistence
 import DDGSync
+import SwiftUI
 
 class RootDebugViewController: UITableViewController {
 
@@ -90,6 +91,13 @@ class RootDebugViewController: UITableViewController {
             fatalError("Failed to create controller")
         }
 
+        return controller
+    }
+
+    @IBSegueAction func onCreateFeatureFlagDebugScreen(_ coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UIViewController {
+        guard let controller = UIHostingController(coder: coder, rootView: FeatureFlagDebugView()) else {
+            fatalError("Failed to create controller")
+        }
         return controller
     }
 

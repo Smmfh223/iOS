@@ -27,7 +27,7 @@ protocol DependencyProvider {
     var appSettings: AppSettings { get }
     var variantManager: VariantManager { get }
     var internalUserDecider: InternalUserDecider { get }
-    var featureFlagger: FeatureFlagger { get }
+    var featureFlagger: DefaultFeatureFlagger { get }
     var remoteMessagingStore: RemoteMessagingStore { get }
     var homePageConfiguration: HomePageConfiguration { get }
     var storageCache: StorageCache { get }
@@ -47,7 +47,7 @@ class AppDependencyProvider: DependencyProvider {
     
     let internalUserDecider: InternalUserDecider = DefaultInternalUserDecider(store: InternalUserStore())
     private lazy var privacyConfig: PrivacyConfiguration = ContentBlocking.shared.privacyConfigurationManager.privacyConfig
-    lazy var featureFlagger: FeatureFlagger = DefaultFeatureFlagger(internalUserDecider: internalUserDecider, privacyConfig: privacyConfig)
+    lazy var featureFlagger: DefaultFeatureFlagger = DefaultFeatureFlagger(internalUserDecider: internalUserDecider, privacyConfig: privacyConfig, overrideStore: FeatureFlagOverrideStore())
 
     let remoteMessagingStore: RemoteMessagingStore = RemoteMessagingStore()
     lazy var homePageConfiguration: HomePageConfiguration = HomePageConfiguration(variantManager: variantManager,

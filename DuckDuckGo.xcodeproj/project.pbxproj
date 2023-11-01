@@ -755,6 +755,8 @@
 		EE458D0D2AB1DA4600FC651A /* EventMapping+NetworkProtectionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE458D0C2AB1DA4600FC651A /* EventMapping+NetworkProtectionError.swift */; };
 		EE458D142ABB652900FC651A /* NetworkProtectionDebugUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE458D132ABB652900FC651A /* NetworkProtectionDebugUtilities.swift */; };
 		EE4BE0092A740BED00CD6AA8 /* ClearTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4BE0082A740BED00CD6AA8 /* ClearTextField.swift */; };
+		EE4CFCA12AF2882B00696954 /* FeatureFlagDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4CFCA02AF2882B00696954 /* FeatureFlagDebugView.swift */; };
+		EE4CFCA32AF2E87D00696954 /* FeatureFlagOverrideStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4CFCA22AF2E87D00696954 /* FeatureFlagOverrideStore.swift */; };
 		EE4FB1862A28CE7200E5CBA7 /* NetworkProtectionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4FB1852A28CE7200E5CBA7 /* NetworkProtectionStatusView.swift */; };
 		EE4FB1882A28D11900E5CBA7 /* NetworkProtectionStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4FB1872A28D11900E5CBA7 /* NetworkProtectionStatusViewModel.swift */; };
 		EE50052E29C369D300AE0773 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50052D29C369D300AE0773 /* FeatureFlag.swift */; };
@@ -2325,6 +2327,9 @@
 		EE458D0C2AB1DA4600FC651A /* EventMapping+NetworkProtectionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventMapping+NetworkProtectionError.swift"; sourceTree = "<group>"; };
 		EE458D132ABB652900FC651A /* NetworkProtectionDebugUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtectionDebugUtilities.swift; sourceTree = "<group>"; };
 		EE4BE0082A740BED00CD6AA8 /* ClearTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTextField.swift; sourceTree = "<group>"; };
+		EE4CFC9F2AF2875B00696954 /* BrowserServicesKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BrowserServicesKit; path = ../BrowserServicesKit; sourceTree = "<group>"; };
+		EE4CFCA02AF2882B00696954 /* FeatureFlagDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagDebugView.swift; sourceTree = "<group>"; };
+		EE4CFCA22AF2E87D00696954 /* FeatureFlagOverrideStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagOverrideStore.swift; sourceTree = "<group>"; };
 		EE4FB1852A28CE7200E5CBA7 /* NetworkProtectionStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtectionStatusView.swift; sourceTree = "<group>"; };
 		EE4FB1872A28D11900E5CBA7 /* NetworkProtectionStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtectionStatusViewModel.swift; sourceTree = "<group>"; };
 		EE50052D29C369D300AE0773 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
@@ -3515,6 +3520,7 @@
 			isa = PBXGroup;
 			children = (
 				EE3B98EB2A963515002F63A0 /* WidgetsExtensionAlpha.entitlements */,
+				EE4CFC9F2AF2875B00696954 /* BrowserServicesKit */,
 				6FB030C7234331B400A10DB9 /* Configuration.xcconfig */,
 				EEB8FDB92A990AEE00EBEDCF /* Configuration-Alpha.xcconfig */,
 				84E341941E2F7EFB00BDBA6F /* DuckDuckGo */,
@@ -3741,6 +3747,7 @@
 				F46FEC5627987A5F0061D9DF /* KeychainItemsDebugViewController.swift */,
 				983D71B02A286E810072E26D /* SyncDebugViewController.swift */,
 				EE72CA842A862D000043B5B3 /* NetworkProtectionDebugViewController.swift */,
+				EE4CFCA02AF2882B00696954 /* FeatureFlagDebugView.swift */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -4393,6 +4400,7 @@
 			children = (
 				EE50052D29C369D300AE0773 /* FeatureFlag.swift */,
 				EE50052F29C3BA0800AE0773 /* InternalUserStore.swift */,
+				EE4CFCA22AF2E87D00696954 /* FeatureFlagOverrideStore.swift */,
 			);
 			name = FeatureFlags;
 			sourceTree = "<group>";
@@ -6257,6 +6265,7 @@
 				F4CE6D1B257EA33C00D0A6AA /* FireButtonAnimator.swift in Sources */,
 				85582E0029D7409700E9AE35 /* SyncSettingsViewController+PDFRendering.swift in Sources */,
 				EE0153EF2A70021E002A8B26 /* NetworkProtectionInviteView.swift in Sources */,
+				EE4CFCA12AF2882B00696954 /* FeatureFlagDebugView.swift in Sources */,
 				9888F77B2224980500C46159 /* FeedbackViewController.swift in Sources */,
 				982686AD2600C0850011A8D6 /* ActionMessageView.swift in Sources */,
 				F446B9B5251150AC00324016 /* HomeMessageViewSectionRenderer.swift in Sources */,
@@ -6726,6 +6735,7 @@
 				85F21DC621145DD5002631A6 /* global.swift in Sources */,
 				F41C2DA326C1925700F9A760 /* BookmarksAndFolders.xcdatamodeld in Sources */,
 				F4F6DFBA26EFF28A00ED7E12 /* BookmarkObjects.swift in Sources */,
+				EE4CFCA32AF2E87D00696954 /* FeatureFlagOverrideStore.swift in Sources */,
 				EE7A92872AC6DE4700832A36 /* NetworkProtectionNotificationIdentifier.swift in Sources */,
 				836A941D247F23C600BF8EF5 /* UserAgentManager.swift in Sources */,
 				4B83397329AFB8D2003F7EA9 /* AppTrackingProtectionFeedbackModel.swift in Sources */,

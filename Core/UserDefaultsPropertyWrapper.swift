@@ -83,7 +83,7 @@ public struct UserDefaultsWrapper<T> {
                 "com.duckduckgo.ios.autofillCredentialsHasBeenEnabledAutomaticallyIfNecessary"
         
         case featureFlaggingDidVerifyInternalUser = "com.duckduckgo.app.featureFlaggingDidVerifyInternalUser"
-        
+
         case voiceSearchEnabled = "com.duckduckgo.app.voiceSearchEnabled"
         
         case autoconsentPromptSeen = "com.duckduckgo.ios.autoconsentPromptSeen"
