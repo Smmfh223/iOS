@@ -21,6 +21,7 @@ import Common
 import Foundation
 import BrowserServicesKit
 import Networking
+import AdServices
 
 public class StatisticsLoader {
     
@@ -39,6 +40,12 @@ public class StatisticsLoader {
     }
     
     public func load(completion: @escaping Completion = {}) {
+        // This isn't the right place for this call, this is just for the proof of concept.
+        // The real implementation should be called only until it succeeds, and after that stop hitting the attribution endpoint.
+        if #available(iOS 14.3, *) {
+            fetchAttributionData()
+        }
+
         if statisticsStore.hasInstallStatistics {
             completion()
             return
@@ -138,4 +145,56 @@ public class StatisticsLoader {
             returnUserMeasurement.updateStoredATB(atb)
         }
     }
+
+}
+
+extension StatisticsLoader {
+
+    @available(iOS 14.3, *)
+    func fetchAttributionData() {
+        do {
+            let token = try AAAttribution.attributionToken()
+            var request = URLRequest(url: URL(string: "https://api-adservices.apple.com/api/v1/")!)
+            request.httpMethod = "POST"
+            request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
+            request.httpBody = token.data(using: .utf8)
+
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let response {
+                    print("AdAttribution response: \(response)")
+                }
+
+                if let error {
+                    print("AdAttribution error: \(error)")
+                }
+
+                if let data {
+                    let decoder = JSONDecoder()
+
+                    do {
+                        let decoded = try decoder.decode(AdServicesAttributionResponse.self, from: data)
+                        print("AdAttribution decoded response: \(decoded)")
+                    } catch {
+                        print("AdAttribution failed to decode attribution response with error: \(error)")
+                    }
+                }
+            }
+
+            task.resume()
+        } catch {
+            print("AdAttribution failed to get token with error: \(error)")
+        }
+    }
+
+    struct AdServicesAttributionResponse: Decodable {
+        let attribution: Bool
+        let orgId: Int
+        let campaignId: Int
+        let conversionType: String
+        let adGroupId: Int
+        let countryOrRegion: String
+        let keywordId: Int
+        let adId: Int
+     }
+
 }
