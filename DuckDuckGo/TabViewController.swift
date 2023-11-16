@@ -60,6 +60,8 @@ class TabViewController: UIViewController {
 
     private let instrumentation = TabInstrumentation()
 
+    var performanceTestDriver: PerformanceTestDriver?
+
     var isLinkPreview = false
     
     var openedByPage = false
@@ -1088,6 +1090,7 @@ extension TabViewController: WKNavigationDelegate {
         hideProgressIndicator()
         onWebpageDidFinishLoading()
         instrumentation.didLoadURL()
+        performanceTestDriver?.loadNext()
         checkLoginDetectionAfterNavigation()
         
         // definitely finished with any potential login cycle by this point, so don't try and handle it any more

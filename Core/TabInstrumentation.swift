@@ -27,46 +27,47 @@ public class TabInstrumentation {
     
     static var tabMaxIdentifier: UInt64 = 0
     
-    private var siteLoadingSPID: Any?
+    private var siteLoadingSPID: OSSignpostID?
     private var currentURL: String?
     private var currentTabIdentifier: UInt64
     
     public init() {
-        type(of: self).tabMaxIdentifier += 1
-        currentTabIdentifier = type(of: self).tabMaxIdentifier
+        Self.tabMaxIdentifier += 1
+        currentTabIdentifier = Self.tabMaxIdentifier
     }
     
-    private var tabInitSPID: Any?
+    private var tabInitSPID: OSSignpostID?
     
     public func willPrepareWebView() {
-        tabInitSPID = Instruments.shared.startTimedEvent(.tabInitialisation, info: "Tab-\(currentTabIdentifier)")
+        // Each event needs to have the same message so that it gets summarised properly in instruments
+        //  otherwise it's just a big list of events you have to then manually calculate averages for
+        tabInitSPID = Instruments.shared.startTimedEvent(.tabInitialisation, info: "Start")
     }
     
     public func didPrepareWebView() {
-        Instruments.shared.endTimedEvent(for: tabInitSPID)
+        if let tabInitSPID {
+            Instruments.shared.endTimedEvent(for: tabInitSPID)
+        }
     }
     
     public func willLoad(url: URL) {
         currentURL = url.absoluteString
-        if #available(iOSApplicationExtension 12.0, *) {
-            let id = OSSignpostID(log: type(of: self).tabsLog)
-            siteLoadingSPID = id
-            os_signpost(.begin,
-                        log: type(of: self).tabsLog,
-                        name: "Load Page",
-                        signpostID: id,
-                        "Loading URL: %@ in %llu", url.absoluteString, currentTabIdentifier)
-        }
+        let id = OSSignpostID(log: Self.tabsLog)
+        siteLoadingSPID = id
+        os_signpost(.begin,
+                    log: Self.tabsLog,
+                    name: "Load Page",
+                    signpostID: id,
+                    "Loading URL: %@ in %llu", url.host ?? "<error>", currentTabIdentifier)
     }
     
     public func didLoadURL() {
-        if #available(iOSApplicationExtension 12.0, *),
-            let id = siteLoadingSPID as? OSSignpostID {
+        if let siteLoadingSPID {
             os_signpost(.end,
-                        log: type(of: self).tabsLog,
+                        log: Self.tabsLog,
                         name: "Load Page",
-                        signpostID: id,
-                        "Loading Finished: %{private}@", "T")
+                        signpostID: siteLoadingSPID,
+                        "Loading Finished")
         }
     }
     
@@ -85,35 +86,30 @@ public class TabInstrumentation {
     }
     
     private func request(url: String, isTracker: Bool, blocked: Bool, reason: String = "", in timeInMs: Double) {
-        if #available(iOSApplicationExtension 12.0, *) {
-            let currentURL = self.currentURL ?? "unknown"
-            let requestType = isTracker ? "Tracker" : "Regular"
-            let status = blocked ? "Blocked" : "Allowed"
-            
-            // 0 is treated as 1ms
-            let timeInNS: UInt64 = timeInMs.asNanos
-            
-            os_log(.debug,
-                   log: type(of: self).tabsLog,
-                   "[%@] Request: %@ - %@ - %@ (%@) in %llu", currentURL, url, requestType, status, reason, timeInNS)
-        }
+        let currentURL = self.currentURL ?? "unknown"
+        let requestType = isTracker ? "Tracker" : "Regular"
+        let status = blocked ? "Blocked" : "Allowed"
+
+        let timeInNS: UInt64 = timeInMs.asNanos
+
+        os_log(.debug,
+               log: Self.tabsLog,
+               "[%@] Request: %@ - %@ - %@ (%@) in %llu", currentURL, url, requestType, status, reason, timeInNS)
     }
     
     public func jsEvent(name: String, executedIn timeInMs: Double) {
-        if #available(iOSApplicationExtension 12.0, *) {
-            let currentURL = self.currentURL ?? "unknown"
-            // 0 is treated as 1ms
-            let timeInNS: UInt64 = timeInMs.asNanos
-            
-            os_log(.debug,
-                   log: type(of: self).tabsLog,
-                   "[%@] JSEvent: %@ executedIn: %llu", currentURL, name, timeInNS)
-        }
+        let currentURL = self.currentURL ?? "unknown"
+        let timeInNS: UInt64 = timeInMs.asNanos
+
+        os_log(.debug,
+               log: Self.tabsLog,
+               "[%@] JSEvent: %@ executedIn: %llu", currentURL, name, timeInNS)
     }
 }
 
 extension Double {
 
+    // 0 is treated as 1ms
     var asNanos: UInt64 {
         return self > 0 ? UInt64(self * 1000 * 1000) : 1000000
     }

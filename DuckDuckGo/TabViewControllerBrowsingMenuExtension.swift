@@ -108,6 +108,17 @@ extension TabViewController {
             self?.onBrowsingSettingsAction()
         }))
 
+        if AppDependencyProvider.shared.internalUserDecider.isInternalUser {
+            entries.append(BrowsingMenuEntry.regular(
+                name: "Start performance test",
+                image: UIImage(systemName: "play.circle")!,
+                action: {
+                    self.performanceTestDriver = PerformanceTestDriver(self.webView)
+                    self.performanceTestDriver?.start()
+                }
+            ))
+        }
+
         return entries
     }
 

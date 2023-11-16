@@ -39,28 +39,21 @@ public class Instruments {
     
     static var eventsLog = OSLog(subsystem: "com.duckduckgo.instrumentation", category: "Events")
 
-    public func startTimedEvent(_ event: TimedEvent, info: String? = nil) -> Any? {
-        if #available(iOSApplicationExtension 12.0, *) {
-            let id = OSSignpostID(log: Instruments.eventsLog)
-            
-            os_signpost(.begin,
-                        log: Instruments.eventsLog,
-                        name: "Timed Event",
-                        signpostID: id,
-                        "Event: %@ info: %@", event.rawValue, info ?? "")
-            return id
-        }
-        return nil
+    public func startTimedEvent(_ event: TimedEvent, info: String? = nil) -> OSSignpostID {
+        let id = OSSignpostID(log: Instruments.eventsLog)
+        os_signpost(.begin,
+                    log: Instruments.eventsLog,
+                    name: "Timed Event",
+                    signpostID: id,
+                    "Event: %@ info: %@", event.rawValue, info ?? "")
+        return id
     }
     
-    public func endTimedEvent(for spid: Any?, result: String? = nil) {
-        if #available(iOSApplicationExtension 12.0, *),
-            let id = spid as? OSSignpostID {
-            os_signpost(.end,
-                        log: Instruments.eventsLog,
-                        name: "Timed Event",
-                        signpostID: id,
-                        "Result: %@", result ?? "")
-        }
+    public func endTimedEvent(for id: OSSignpostID, result: String? = nil) {
+        os_signpost(.end,
+                    log: Instruments.eventsLog,
+                    name: "Timed Event",
+                    signpostID: id,
+                    "Result: %@", result ?? "")
     }
 }
