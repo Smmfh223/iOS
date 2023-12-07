@@ -177,6 +177,7 @@ jobs:
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       run: |
         bundle exec fastlane sync_signing
+        bundle exec fastlane sync_signing_development
 
         set -o pipefail && xcodebuild \
         -scheme "DuckDuckGo" \
