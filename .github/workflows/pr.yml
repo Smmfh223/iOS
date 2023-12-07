@@ -2,7 +2,7 @@ name: PR Checks
 
 on:
   push:
-    branches: [ main, "release/**" ]
+    branches: [ main, "release/**", "sam/**" ]
   pull_request:
 
 jobs:
@@ -177,6 +177,7 @@ jobs:
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       run: |
         bundle exec fastlane sync_signing
+        bundle exec fastlane sync_signing_development
 
         set -o pipefail && xcodebuild \
         -scheme "DuckDuckGo" \

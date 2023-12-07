@@ -21,6 +21,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Fetches and updates certificates and provisioning profiles for App Store distribution
 
+### sync_signing_development
+
+```sh
+[bundle exec] fastlane sync_signing_development
+```
+
+Fetches and updates certificates and provisioning profiles for Development
+
 ### sync_signing_adhoc
 
 ```sh
