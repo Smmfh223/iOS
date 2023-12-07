@@ -2,7 +2,7 @@ name: PR Checks
 
 on:
   push:
-    branches: [ main, "release/**" ]
+    branches: [ main, "release/**", "sam/**" ]
   pull_request:
 
 jobs:
