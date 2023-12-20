@@ -36,13 +36,54 @@ final class DuckDuckGoUITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+//    let app = XCUIApplication()
+    
+//    override func setUp() {
+//        super.setUp()
+//        continueAfterFailure = false
+//        
+//        app.launchEnvironment = [
+//            "BASE_URL": "http://localhost:8080",
+//            "BASE_PIXEL_URL": "http://localhost:8080",
+//            "DAXDIALOGS": "false",
+//            "ONBOARDING": "false",
+//            // usually just has to match an existing variant to prevent one being allocated
+//            "VARIANT": "sc"
+//        ]
+//    }
 
     func testExample() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
+        app.search(forText: "https://privacy-test-pages.site/privacy-protections/request-blocking/")
+        
+        app.webViews.webViews.webViews/*@START_MENU_TOKEN@*/.buttons["Start the test"]/*[[".otherElements[\"Request blocking test page\"].buttons[\"Start the test\"]",".buttons[\"Start the test\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        
+//        let webViewQury:XCUIElementQuery = app.descendants(matching: .webView)
+//        let webView = webViewQury.element(boundBy: 0)
+        
+        let about = app.staticTexts["Request Blocking Test Page"]
+        let exists = NSPredicate(format: "exists == 1")
+        expectation(for: exists, evaluatedWith: about, handler: nil)
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+}
+
+extension XCUIApplication {
+    
+    private struct Constants {
+        static let defaultTimeout: Double = 30
+    }
+    
+    func search(forText text: String) {
+        let searchentrySearchField = searchFields.element
+        XCTAssertTrue(searchentrySearchField.waitForExistence(timeout: Constants.defaultTimeout))
+        searchentrySearchField.tap()
+        searchentrySearchField.typeText("\(text)\r")
+//        Snapshot.waitForLoadingIndicatorToDisappear(within: Constants.defaultTimeout)
     }
 }
 
