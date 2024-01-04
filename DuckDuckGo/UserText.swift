@@ -956,7 +956,7 @@ But if you *do* want a peek under the hood, you can find more information about 
     public static let settingsAutolock = NSLocalizedString("settings.autolock", value: "Application Lock", comment: "Settings screen cell text for Application Lock")
     public static let settingsAutoLockDescription = NSLocalizedString("settings.autolock.description", value: "If Touch ID, Face ID or a system passcode is set, you’ll be requested to unlock the app when opening.", comment: "Section footer Autolock description")
     
-    public static let settingsCustomizesection = NSLocalizedString("settings.customize", value: "Customize", comment: "Settings title for the customize section")
+    public static let settingsCustomizeSection = NSLocalizedString("settings.customize", value: "Customize", comment: "Settings title for the customize section")
     public static let settingsKeyboard = NSLocalizedString("settings.keyboard", value: "Keyboard", comment: "Settings screen cell for Keyboard")
     public static let settingsPreviews = NSLocalizedString("settings.previews", value: "Long-Press Previews", comment: "Settings screen cell for long press previews")
     public static let settingsAutocomplete = NSLocalizedString("settings.autocomplete", value: "Autocomplete Suggestions", comment: "Settings screen cell for autocomplete")
@@ -964,7 +964,7 @@ But if you *do* want a peek under the hood, you can find more information about 
     public static let settingsAssociatedApps = NSLocalizedString("settings.associated.apps", value: "Open Links in Associated Apps", comment: "Settings screen cell for opening links in associated apps")
     public static let settingsAssociatedAppsDescription = NSLocalizedString("settings.associated.apps.description", value: "Disable to prevent links from automatically opening in other installed apps.", comment: "Description for associated apps description")
     
-    public static let settingsMoreSction = NSLocalizedString("settings.more", value: "More from DuckDuckGo", comment: "Settings title for the 'More' section")
+    public static let settingsMoreSection = NSLocalizedString("settings.more", value: "More from DuckDuckGo", comment: "Settings title for the 'More' section")
     public static let settingsEmailProtection = NSLocalizedString("settings.emailProtection", value: "Email Protection", comment: "Settings cell for Email Protection")
     public static let settingsEmailProtectionDescription = NSLocalizedString("settings.emailProtection.description", value: "Block email trackers and hide your address", comment: "Settings cell for Email Protection")
     
