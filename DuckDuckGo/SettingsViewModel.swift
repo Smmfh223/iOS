@@ -72,7 +72,7 @@ final class SettingsViewModel: ObservableObject {
 #endif
     }
     
-    var shouldShowSyncCell: Bool { featureFlagger.isFeatureOn(.sync) }
+    var shouldShowSyncCell: Bool { legacyViewProvider.syncService.featureFlags.contains(.userInterface) }
     var shouldShowLoginsCell: Bool { featureFlagger.isFeatureOn(.autofillAccessCredentialManagement) }
     var shouldShowTextSizeCell: Bool { !isPad }
     var shouldShowVoiceSearchCell: Bool { AppDependencyProvider.shared.voiceSearchHelper.isSpeechRecognizerAvailable }
@@ -80,7 +80,15 @@ final class SettingsViewModel: ObservableObject {
     var shouldShowSpeechRecognitionCell: Bool { AppDependencyProvider.shared.voiceSearchHelper.isSpeechRecognizerAvailable }
     var shouldShowNoMicrophonePermissionAlert: Bool = false
     var shouldShowDebugCell: Bool { return featureFlagger.isFeatureOn(.debugMenu) || isDebugBuild }
-    
+    var cellTitle: String {
+        let syncService = legacyViewProvider.syncService
+        let isDataSyncingDisabled = !syncService.featureFlags.contains(.dataSyncing) && syncService.authState == .active
+        if SyncBookmarksAdapter.isSyncBookmarksPaused || SyncCredentialsAdapter.isSyncCredentialsPaused || isDataSyncingDisabled {
+            return "⚠️ \(UserText.settingsSync)"
+        }
+        return UserText.settingsSync
+    }
+
     var shouldShowNetworkProtectionCell: Bool {
 #if NETWORK_PROTECTION
         if #available(iOS 15, *) {
